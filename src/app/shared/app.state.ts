@@ -1,4 +1,4 @@
-import { State, Action, StateContext } from '@ngxs/store';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { SetUsername } from './app.actions';
 
 export interface AppStateModel {
@@ -15,6 +15,11 @@ export interface AppStateModel {
   }
 })
 export class AppState {
+  @Selector()
+  static getUsername(state: AppStateModel) {
+    return state.username;
+  }
+
   @Action(SetUsername)
   setUsername({ patchState }: StateContext<AppStateModel>, { payload }: SetUsername) {
     patchState({ username: payload });
