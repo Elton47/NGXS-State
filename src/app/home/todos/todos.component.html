@@ -1,15 +1,15 @@
 <h2>Todos:</h2>
-<label>Title:</label>
+<label>Title *</label>
 <br>
-<input type="text" [(ngModel)]="todoRequest.title">
+<input type="text" required [(ngModel)]="todoRequest.title">
 <br>
 <br>
-<label>Description:</label>
+<label>Description</label>
 <br>
 <input type="text" [(ngModel)]="todoRequest.description">
 <br>
 <br>
-<button type="button" (click)="add()">Add Todo</button>
+<button type="button" [disabled]="!todoRequest?.title" (click)="todoRequest?.title ? add() : ''">Add Todo</button>
 <br>
 <br>
 <table>

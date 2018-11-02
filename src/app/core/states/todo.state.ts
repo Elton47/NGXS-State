@@ -16,11 +16,11 @@ export class TodoState {
   }
 
   @Action(GetTodos)
-  GetTodos({ getState, setState }: StateContext<Todo[]>) {
+  GetTodos({ setState }: StateContext<Todo[]>) {
     this.todoService
       .getTodos()
       .toPromise()
-      .then((response: Todo[]) => setState([...getState(), ...response]))
+      .then((response: Todo[]) => setState(response))
       .catch(err => console.warn(err));
   }
 

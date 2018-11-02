@@ -25,6 +25,7 @@ export class TodosComponent implements OnInit {
 
   public add(): void {
     this.store.dispatch(new AddTodo(this.todoRequest));
+    this.todoRequest = new TodoRequest();
   }
 
   public edit(id: number, request: Todo): void {
