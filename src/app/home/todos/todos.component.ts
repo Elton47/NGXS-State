@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { TodoRequest, Todo } from '../../core/models/todo.model';
-import { AddTodo, GetTodos, CompleteTodo } from '../../core/actions/todo.actions';
+import { AddTodo, GetTodos, CompleteTodo, EditTodo } from '../../core/actions/todo.actions';
 import { TodoState } from '../../core/states/todo.state';
 import { Observable } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 export class TodosComponent implements OnInit {
   @Select(TodoState.todos) todos$: Observable<Todo[]>;
   todoRequest: TodoRequest = new TodoRequest();
+  editRequest: { id?: number, request?: TodoRequest } = {};
 
   constructor(private store: Store) { }
 
@@ -26,10 +27,19 @@ export class TodosComponent implements OnInit {
     this.store.dispatch(new AddTodo(this.todoRequest));
   }
 
-  public edit(todo: Todo): void {
+  public edit(id: number, request: Todo): void {
+    this.editRequest = { id, request };
+  }
+
+  public saveEdit(): void {
+    this.store.dispatch(new EditTodo(this.editRequest.id, this.editRequest.request));
+    this.editRequest = {};
   }
 
   public complete(id: number): void {
     this.store.dispatch(new CompleteTodo(id));
+    if (this.editRequest && this.editRequest.id === id) {
+      this.editRequest.request.completed = true;
+    }
   }
 }
