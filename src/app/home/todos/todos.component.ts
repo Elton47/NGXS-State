@@ -29,11 +29,15 @@ export class TodosComponent implements OnInit {
   }
 
   public edit(id: number, request: Todo): void {
-    this.editRequest = { id, request };
+    this.editRequest = { id: id, request: { ...request } };
   }
 
   public saveEdit(): void {
     this.store.dispatch(new EditTodo(this.editRequest.id, this.editRequest.request));
+    this.editRequest = {};
+  }
+
+  public cancelEdit(): void {
     this.editRequest = {};
   }
 

@@ -26,19 +26,20 @@
     <tr *ngFor="let todo of (todos$ | async)">
       <td>{{ todo?.id }}</td>
       <td>
-        <p *ngIf="editRequest?.id !== todo.id">{{ todo?.title }}</p>
-        <input [size]="editRequest?.request?.title?.length" *ngIf="editRequest?.id === todo.id" type="text" [(ngModel)]="editRequest.request.title">
+        <p *ngIf="editRequest?.id !== todo?.id">{{ todo?.title }}</p>
+        <input [size]="editRequest?.request?.title?.length || 1" *ngIf="editRequest?.id === todo?.id" type="text" required [(ngModel)]="editRequest.request.title">
       </td>
       <td>
-        <p *ngIf="editRequest?.id !== todo.id">{{ todo?.description }}</p>
-        <input [size]="editRequest?.request?.description?.length" *ngIf="editRequest?.id === todo.id" type="text" [(ngModel)]="editRequest.request.description">
+        <p *ngIf="editRequest?.id !== todo?.id">{{ todo?.description }}</p>
+        <input [size]="editRequest?.request?.description?.length" *ngIf="editRequest?.id === todo?.id" type="text" [(ngModel)]="editRequest.request.description">
       </td>
       <td>
-        <p *ngIf="editRequest?.id !== todo.id">{{ todo?.completed }}</p>
-        <input *ngIf="editRequest?.id === todo.id" type="checkbox" [(ngModel)]="editRequest.request.completed">
+        <p *ngIf="editRequest?.id !== todo?.id">{{ todo?.completed }}</p>
+        <input *ngIf="editRequest?.id === todo?.id" type="checkbox" [(ngModel)]="editRequest.request.completed">
       </td>
       <td>
-        <button type="button" (click)="editRequest?.id !== todo.id ? edit(todo?.id, todo) : saveEdit()">{{ editRequest?.id !== todo.id ? 'Edit' : 'Save' }}</button>
+        <button [disabled]="editRequest?.id === todo?.id && !editRequest?.request?.title" type="button" (click)="editRequest?.id !== todo?.id ? edit(todo?.id, todo) : editRequest?.request?.title ? saveEdit() : ''">{{ editRequest?.id !== todo?.id ? 'Edit' : 'Save' }}</button>
+        <button *ngIf="editRequest?.id === todo?.id" type="button" style="margin-left: .5rem;" (click)="cancelEdit()">Cancel</button>
         <button type="button" style="margin-left: .5rem;" (click)="complete(todo?.id)">Complete</button>
         <button type="button" style="margin-left: .5rem;" (click)="delete(todo?.id)">Delete</button>
       </td>
