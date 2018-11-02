@@ -1,6 +1,6 @@
 import { State, StateContext, Action, Selector } from '@ngxs/store';
 import { Todo } from '../models/todo.model';
-import { AddTodo, GetTodos, CompleteTodo, EditTodo } from '../actions/todo.actions';
+import { AddTodo, GetTodos, CompleteTodo, EditTodo, DeleteTodo } from '../actions/todo.actions';
 import { TodoService } from '../services/todo.service';
 
 @State<Todo[]>({
@@ -38,7 +38,7 @@ export class TodoState {
     this.todoService
       .editTodo(action.id, action.todoRequest)
       .toPromise()
-      .then((response: Todo) => setState(getState().map((todo: Todo) => todo.id === response.id ? { ...todo, response } : todo )))
+      .then((response: Todo) => setState(getState().map((todo: Todo) => todo.id === response.id ? response : todo )))
       .catch(err => console.warn(err));
   }
 
@@ -48,6 +48,15 @@ export class TodoState {
       .completeTodo(action.id)
       .toPromise()
       .then((response: Todo) => setState(getState().map((todo: Todo) => todo.id === response.id ? { ...todo, completed: true } : todo )))
+      .catch(err => console.warn(err));
+  }
+
+  @Action(DeleteTodo)
+  deleteTodo({ getState, setState }: StateContext<Todo[]>, action: DeleteTodo) {
+    this.todoService
+      .deleteTodo(action.id)
+      .toPromise()
+      .then(_ => setState(getState().filter((todo: Todo) => todo.id !== action.id)))
       .catch(err => console.warn(err));
   }
 }

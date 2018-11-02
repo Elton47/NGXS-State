@@ -40,6 +40,7 @@
       <td>
         <button type="button" (click)="editRequest?.id !== todo.id ? edit(todo?.id, todo) : saveEdit()">{{ editRequest?.id !== todo.id ? 'Edit' : 'Save' }}</button>
         <button type="button" style="margin-left: .5rem;" (click)="complete(todo?.id)">Complete</button>
+        <button type="button" style="margin-left: .5rem;" (click)="delete(todo?.id)">Delete</button>
       </td>
     </tr>
   </tbody>

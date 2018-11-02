@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { TodoRequest, Todo } from '../../core/models/todo.model';
-import { AddTodo, GetTodos, CompleteTodo, EditTodo } from '../../core/actions/todo.actions';
+import { AddTodo, GetTodos, CompleteTodo, EditTodo, DeleteTodo } from '../../core/actions/todo.actions';
 import { TodoState } from '../../core/states/todo.state';
 import { Observable } from 'rxjs';
 
@@ -40,6 +40,12 @@ export class TodosComponent implements OnInit {
     this.store.dispatch(new CompleteTodo(id));
     if (this.editRequest && this.editRequest.id === id) {
       this.editRequest.request.completed = true;
+    }
+  }
+
+  public delete(id: number): void {
+    if (confirm('Are you sure you want to delete this Todo?')) {
+      this.store.dispatch(new DeleteTodo(id));
     }
   }
 }
