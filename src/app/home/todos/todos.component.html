@@ -1,0 +1,38 @@
+<h2>Todos:</h2>
+<label>Title:</label>
+<br>
+<input type="text" [(ngModel)]="todoRequest.title">
+<br>
+<br>
+<label>Description:</label>
+<br>
+<input type="text" [(ngModel)]="todoRequest.description">
+<br>
+<br>
+<button type="button" (click)="add()">Add Todo</button>
+<br>
+<br>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Completed</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let todo of (todos$ | async)">
+      <td>{{ todo?.id }}</td>
+      <td>{{ todo?.title }}</td>
+      <td>{{ todo?.description }}</td>
+      <td>{{ todo?.completed }}</td>
+      <td>
+        <button type="button" (click)="edit(todo)">Edit</button>
+        <button type="button" style="margin-left: .5rem;" (click)="complete(todo?.id)">Complete</button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot></tfoot>
+</table>
