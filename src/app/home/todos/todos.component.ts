@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, Select } from '@ngxs/store';
+import { Store, Select, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TodoRequest, Todo } from '../../core/models/todo.model';
 import { AddTodo, GetTodos, CompleteTodo, EditTodo, DeleteTodo } from '../../core/actions/todo.actions';
 import { TodoState } from '../../core/states/todo.state';
@@ -15,12 +15,16 @@ export class TodosComponent implements OnInit {
   todoRequest: TodoRequest = new TodoRequest();
   editRequest: { id?: number, request?: TodoRequest } = {};
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private actions$: Actions) { }
 
   ngOnInit() {
     this.store.dispatch(
       new GetTodos()
     );
+    this.actions$.pipe(ofActionSuccessful(AddTodo)).subscribe(_ => {
+      alert('Todo created successfully!');
+      this.todoRequest = new TodoRequest();
+    });
   }
 
   public add(): void {
@@ -48,9 +52,9 @@ export class TodosComponent implements OnInit {
     }
   }
 
-  public delete(id: number): void {
-    if (confirm('Are you sure you want to delete this Todo?')) {
-      this.store.dispatch(new DeleteTodo(id));
+  public delete(todo: Todo): void {
+    if (confirm(`Are you sure you want to delete "${todo.title}"?`)) {
+      this.store.dispatch(new DeleteTodo(todo.id));
     }
   }
 }

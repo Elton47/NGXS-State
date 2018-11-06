@@ -1,7 +1,7 @@
 <h2>Todos:</h2>
 <label>Title *</label>
 <br>
-<input type="text" required [(ngModel)]="todoRequest.title">
+<input type="text" required autofocus [(ngModel)]="todoRequest.title">
 <br>
 <br>
 <label>Description</label>
@@ -41,7 +41,7 @@
         <button [disabled]="editRequest?.id === todo?.id && !editRequest?.request?.title" type="button" (click)="editRequest?.id !== todo?.id ? edit(todo?.id, todo) : editRequest?.request?.title ? saveEdit() : ''">{{ editRequest?.id !== todo?.id ? 'Edit' : 'Save' }}</button>
         <button *ngIf="editRequest?.id === todo?.id" type="button" style="margin-left: .5rem;" (click)="cancelEdit()">Cancel</button>
         <button type="button" style="margin-left: .5rem;" (click)="complete(todo?.id)">Complete</button>
-        <button type="button" style="margin-left: .5rem;" (click)="delete(todo?.id)">Delete</button>
+        <button type="button" style="margin-left: .5rem;" (click)="delete(todo)">Delete</button>
       </td>
     </tr>
   </tbody>
