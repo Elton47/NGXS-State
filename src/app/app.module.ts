@@ -4,8 +4,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { CoreModule } from './core/core.module';
 import { NgxsModule } from '@ngxs/store';
+import { AuthState } from './core/states/auth.state';
 
 
 @NgModule({
@@ -16,9 +18,14 @@ import { NgxsModule } from '@ngxs/store';
     BrowserModule,
     AppRoutingModule,
     CoreModule,
-    NgxsModule.forRoot(),
+    NgxsModule.forRoot([
+      AuthState
+    ]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot({
+      key: 'auth.token'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
